@@ -1,0 +1,23 @@
+
+import java.io.IOException;
+
+public class IsSiteOkRun {
+    public static void main(String[] args) {
+        IsSiteOk siteOk=new IsSiteOk();
+        try {
+            siteOk.readFromFile("D:\\Test\\Site.txt");
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        try {
+            siteOk.checkSite();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        System.out.println(siteOk.getSiteStatus());
+
+
+    }
+}
