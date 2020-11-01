@@ -1,0 +1,67 @@
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.*;
+
+public class IsSiteOk {
+    private Map<String,String> siteStatus=new HashMap<>();
+    private List<String> siteList=new ArrayList<>();
+
+
+    public IsSiteOk() {
+    }
+
+    public Map<String, String> getSiteStatus() {
+        return siteStatus;
+    }
+
+    public List<String> getSiteList() {
+        return siteList;
+    }
+
+    public void setSiteList(List<String> siteList) {
+        this.siteList = siteList;
+    }
+
+    public void checkSite() throws IOException{
+        int code=-1;
+        for (String site:siteList) {
+            URL url=new URL(site);
+            HttpURLConnection con=(HttpURLConnection) url.openConnection();
+            siteStatus.put(site," -> Status not Ok");
+            code= con.getResponseCode();
+            
+            if(code==200){
+                siteStatus.put(site," -> Status Ok");
+            }
+
+        }
+    }
+
+
+    public void readFromFile(String path)throws IOException {
+        try (BufferedReader reader=new BufferedReader(new FileReader(path))){
+            String line;
+           while ((line=reader.readLine())!=null){
+
+
+               siteList.add(line);
+           }
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
+
+
+    @Override
+    public String toString() {
+        return "IsSiteOk{" +
+                "siteList=" + siteList +
+                '}';
+    }
+}
